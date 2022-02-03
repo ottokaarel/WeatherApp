@@ -6,10 +6,10 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CurrentWeatherData {
+public class CityWeatherData {
 
     public String name;
-    public int dt;
+    public long dt;
     public MainWeatherProperties main;
     public WindProperties wind;
 

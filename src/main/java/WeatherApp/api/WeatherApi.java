@@ -6,7 +6,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import WeatherApp.model.CurrentWeatherData;
+import WeatherApp.model.CityWeatherData;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 
 
@@ -30,7 +30,7 @@ public class WeatherApi {
     }
 
 
-    public CurrentWeatherData getCurrentWeatherData(String cityName) throws CityNameNotFoundException {
+    public CityWeatherData getCurrentWeatherData(String cityName) throws CityNameNotFoundException {
 
         ClientResponse response = client.resource("https://api.openweathermap.org/data/2.5/weather")
                 .queryParam("appid", "72b6f0ef3716a3ee22a4f033d5cf51e2")
@@ -42,6 +42,6 @@ public class WeatherApi {
             throw new CityNameNotFoundException(cityName);
         }
 
-        return response.getEntity(CurrentWeatherData.class);
+        return response.getEntity(CityWeatherData.class);
     }
 }
