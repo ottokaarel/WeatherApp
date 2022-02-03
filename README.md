@@ -2,6 +2,11 @@ Weather Application back-end using OpenWeatherMap API
 
 API documentation created with Swagger.
 
+
+To access OpenWeatherMap API, you first need to generate an API key from your account.
+
+This API key shall be inserted into resources/application.properties for the value "owm.apikey".
+
 To start the server and application, excecute the main() method in src/main/java/WeatherApp/WeatherAppApplication.java.
 
 Memory-based H2 database with default authentication is used for data storage.

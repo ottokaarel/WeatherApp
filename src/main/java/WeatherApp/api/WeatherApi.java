@@ -8,17 +8,29 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import WeatherApp.model.CityWeatherData;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 
 import static com.sun.jersey.api.client.Client.create;
 import static com.sun.jersey.api.json.JSONConfiguration.FEATURE_POJO_MAPPING;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 
-
+@Component
 public class WeatherApi {
 
     private static final Client client = getConfiguredClient();
 
+    @Autowired
+    private Environment env;
+
+    public WeatherApi(Environment env) {
+        this.env = env;
+    }
 
     private static Client getConfiguredClient() {
 
@@ -32,8 +44,9 @@ public class WeatherApi {
 
     public CityWeatherData getCurrentWeatherData(String cityName) throws CityNameNotFoundException {
 
+
         ClientResponse response = client.resource("https://api.openweathermap.org/data/2.5/weather")
-                .queryParam("appid", "72b6f0ef3716a3ee22a4f033d5cf51e2")
+                .queryParam("appid", env.getProperty("owm.apikey"))
                 .queryParam("q", cityName)
                 .queryParam("units", "metric")
                 .get(ClientResponse.class);

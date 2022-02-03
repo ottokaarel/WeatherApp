@@ -9,6 +9,7 @@ import WeatherApp.model.CityWeatherReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,12 @@ public class WeatherService {
     private final WeatherRepository weatherRepository;
 
     @Autowired
-    public WeatherService(WeatherRepository weatherRepository) {
+    private Environment env;
+
+    @Autowired
+    public WeatherService(WeatherRepository weatherRepository, Environment env) {
         this.weatherRepository = weatherRepository;
+        this.env = env;
     }
 
     public Optional<CityWeatherReport> findById(long id) {
@@ -71,7 +76,7 @@ public class WeatherService {
     public CityWeatherReport getCityWeatherReport(String name) throws CityNameNotFoundException {
 
         try {
-            WeatherApi api = new WeatherApi();
+            WeatherApi api = new WeatherApi(env);
             CityWeatherData weatherData = api.getCurrentWeatherData(name);
 
             CityWeatherReport weatherReport = new CityWeatherReport();
