@@ -1,6 +1,7 @@
 package WeatherApp.api;
 
 import WeatherApp.exceptions.CityNameNotFoundException;
+import WeatherApp.exceptions.EntityNotFoundException;
 import WeatherApp.model.CityWeatherReport;
 import WeatherApp.service.WeatherService;
 
@@ -29,8 +30,13 @@ public class WeatherAppController {
 
 
     @GetMapping("/{id}")
-    public Optional<CityWeatherReport> getCity(@PathVariable Long id) {
-        return weatherService.findById(id);
+    public Optional<CityWeatherReport> getCity(@PathVariable Long id) throws EntityNotFoundException {
+        Optional<CityWeatherReport> cityWeatherReport = weatherService.findById(id);
+        if (cityWeatherReport.isPresent()) {
+            return cityWeatherReport;
+        } else {
+            throw new EntityNotFoundException(id);
+        }
     }
 
 
